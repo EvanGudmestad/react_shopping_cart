@@ -2,15 +2,11 @@ import CartItem from "./CartItem";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import _ from 'lodash';
+import './CartList.css';
 
 
 function CartList(){
 
-    // const [item1Name, setItem1Name] = useState("Hat");
-    // const [item1Quantity, setItem1Quantity] = useState(1);
-
-    // const [item2Name, setItem2Name] = useState("Tie")
-    // const [item2Quantity, setItem2Quantity] = useState(2);
     const [items,setItems] = useState([
         {id:nanoid(),name:'Hat', quantity:2},
         {id:nanoid(),name:'Tie', quantity:3},
@@ -25,16 +21,49 @@ function CartList(){
       );
     }
 
+    function onQuantityAdd(evt, item){
+        setItems(
+            _.map(items, (x) =>
+           x.id === item.id ? {...x, quantity: ++x.quantity} : x)
+        );
+    }
+
+    function onQuantityRemove(evt,item){
+        const newQuantity = item.quantity -1;
+
+        if(newQuantity > 0){
+            setItems(
+                _.map(items, (x) =>
+                x.id === item.id ? {...x, quantity: --x.quantity} : x)
+            );
+        }else{
+            setItems(_.filter(items, (x) => x.id !== item.id))
+        }
+    }
+
+    let itemCount = 0;
+    for (const item of items) {
+        if(item && item.quantity){
+            itemCount += item.quantity;
+        }
+    }
+
 
     return(
         <>
-            {/* <CartItem name={items[0].name} quantity={items[0].quantity} />
-            <CartItem name={items[1].name} quantity={items[1].quantity} />
-            <CartItem name={items[2].name} quantity={items[2].quantity} /> */}
-
-            {items.map(item => 
-               <CartItem name={item.name} quantity={item.quantity} key={item.id} onNameChange={(evt) => onNameChange(evt,item)} />
-            )}
+          <div className="container">
+            {itemCount <= 0 && <div className='textEmpty move'>Your cart is empty!  Add some items to it!</div>}
+            <h1>Shopping Cart
+                {itemCount > 0 && <span className="badge rounded-pill text-bg-primary">{itemCount}</span>}</h1>
+            <button className="btn btn-lg btn-primary" onClick={(evt) => setItems([...items,{id:nanoid(),name:'', quantity:1}])}>Add Item</button>
+                {items.map(item => 
+                    <CartItem name={item.name} quantity={item.quantity} key={item.id} 
+                    onNameChange={(evt) => onNameChange(evt,item)}
+                    onQuantityAdd={(evt) => onQuantityAdd(evt,item)}
+                    onQuantityRemove={(evt) => onQuantityRemove(evt, item)}
+                />
+                )}
+            </div>
         </>
     );
 }

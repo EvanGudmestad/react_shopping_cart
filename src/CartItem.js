@@ -11,26 +11,26 @@ function CartItem(props){
     //const [itemQuantity, setItemQuantity] = useState(2);
 
     return(
-        <div className='container'>
+        
             <div className='row mt-3'>
-                <div className='col-md-3'>
+                <div className='col-md-4'>
                     <input type="text" className='form-control' value={props.name} onChange={(evt) => props.onNameChange(evt)} />
                 </div>
-                <div className='col-md-3'>
+                <div className='col-md-3 text-center'>
                     <span className="text-center">{props.quantity}</span>
                 </div>
-                <div className='col-md-3'>
-                    {/* <button className="btn btn-primary" onClick={(evt) => props.setItemQuantity(props.quantity+1)} >
+                <div className='col-md-2'>
+                    <button className="btn btn-primary rounded-5" onClick={(evt) => props.onQuantityAdd(evt)} >
                         <span>Add</span>
-                    </button> */}
+                    </button>
                 </div>
-                <div className='col-md-3'>
-                    {/* <button className="btn btn-secondary" onClick={(evt) => props.setItemQuantity(props.quantity-1)}>
+                <div className='col-md-2'>
+                    <button className="btn btn-danger rounded-5" onClick={(evt) => props.onQuantityRemove(evt)}>
                         <span>Remove</span>
-                     </button> */}
+                     </button>
                 </div>
             </div>
-        </div>
+      
     );
 }
 

@@ -1,3 +1,9 @@
+.textEmpty{
+  color:red;
+  font-weight: bold;
+  font-size: 2em;
+}
+
 .App {
   text-align: center;
 }
